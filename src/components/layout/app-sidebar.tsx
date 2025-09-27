@@ -10,11 +10,6 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import {
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
 import {
   LayoutDashboard,
@@ -48,12 +43,6 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-       <SheetHeader className="p-4 md:hidden">
-          <SheetTitle>Menu</SheetTitle>
-          <SheetDescription>
-            Navegue pelas seções da aplicação.
-          </SheetDescription>
-        </SheetHeader>
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2.5">
           <Icons.logo className="size-7 text-primary" />
