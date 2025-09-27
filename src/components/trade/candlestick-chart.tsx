@@ -62,14 +62,16 @@ export function CandlestickChartComponent() {
 }
 
 const Candlestick = (props: any) => {
-  const { x, y, width, height, low, high, value } = props;
+  const { x, width, low, high, value } = props;
   const isRising = value[1] >= value[0];
   const color = isRising ? "#26A69A" : "#EF5350";
+  const y = isRising ? props.y + props.height : props.y;
+  const height = Math.max(1, Math.abs(props.height));
 
   return (
     <g stroke={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} fill={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} strokeWidth="1">
        {/* High-Low Wick */}
-       <line x1={x + width / 2} y1={y} x2={x + width / 2} y2={y + height} strokeWidth={1} />
+       <line x1={x + width / 2} y1={props.y} x2={x + width / 2} y2={props.y - (high - low)} strokeWidth={1} />
        
        {/* Candle Body */}
       <rect

@@ -16,12 +16,11 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { CheckCircle, XCircle, Loader } from "lucide-react";
+import { useBroker } from "@/contexts/broker-context";
 
 export default function SettingsPage() {
   const { toast } = useToast();
-  const [connectionStatus, setConnectionStatus] = useState<
-    "disconnected" | "connecting" | "connected" | "failed"
-  >("disconnected");
+  const { connectionStatus, setConnectionStatus, updateBalances } = useBroker();
 
   const handleConnect = (event: React.FormEvent) => {
     event.preventDefault();
@@ -31,9 +30,10 @@ export default function SettingsPage() {
       const success = Math.random() > 0.3; // 70% success rate
       if (success) {
         setConnectionStatus("connected");
+        updateBalances({ real: 15750.25, demo: 10000.00 });
         toast({
           title: "Conexão Bem-sucedida",
-          description: "Sua conta IQOption foi conectada.",
+          description: "Sua conta IQOption foi conectada e os saldos atualizados.",
         });
       } else {
         setConnectionStatus("failed");
@@ -48,6 +48,7 @@ export default function SettingsPage() {
   
   const handleDisconnect = () => {
     setConnectionStatus("disconnected");
+    updateBalances({ real: 0, demo: 10000.00 });
     toast({
         title: "Desconectado",
         description: "Sua conta IQOption foi desconectada.",
