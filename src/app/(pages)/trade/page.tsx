@@ -46,6 +46,9 @@ export default function TradePage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="5">5 seg</SelectItem>
+                        <SelectItem value="15">15 seg</SelectItem>
+                        <SelectItem value="30">30 seg</SelectItem>
                         <SelectItem value="60">1 min</SelectItem>
                         <SelectItem value="300">5 min</SelectItem>
                         <SelectItem value="900">15 min</SelectItem>
