@@ -206,7 +206,7 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
-            <SheetHeader className="p-4 md:hidden">
+            <SheetHeader className="p-4 text-left">
               <SheetTitle>Menu</SheetTitle>
               <SheetDescription>
                 Navegue pelas seções da aplicação.

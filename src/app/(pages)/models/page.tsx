@@ -35,8 +35,8 @@ export default function ModelsPage() {
       );
       setLoading(prev => ({ ...prev, [modelId]: false }));
       toast({
-        title: "Model Promoted",
-        description: `Model ${modelId} is now in production.`,
+        title: "Modelo Promovido",
+        description: `O modelo ${modelId} agora está em produção.`,
       });
     }, 1500);
   };
@@ -46,19 +46,27 @@ export default function ModelsPage() {
      setTimeout(() => {
       setLoading(prev => ({ ...prev, retrain: false }));
       toast({
-        title: "Retraining Initiated",
-        description: "A new model retraining job has been started.",
+        title: "Retreinamento Iniciado",
+        description: "Um novo processo de retreinamento de modelo foi iniciado.",
       });
     }, 2500);
   };
 
+  const getStatusLabel = (status: "production" | "staging" | "archived") => {
+    switch (status) {
+      case "production": return "Produção";
+      case "staging": return "Staging";
+      case "archived": return "Arquivado";
+    }
+  }
+
 
   return (
     <>
-      <PageHeader title="AI Models">
+      <PageHeader title="Modelos de IA">
         <Button onClick={handleRetrain} disabled={loading['retrain']}>
           {loading['retrain'] ? <Cpu className="mr-2 h-4 w-4 animate-spin" /> : <GitBranch className="mr-2 h-4 w-4" />}
-          Trigger Retraining
+          Iniciar Retreinamento
         </Button>
       </PageHeader>
       <main className="flex-1 overflow-auto p-4 md:p-8">
@@ -72,7 +80,7 @@ export default function ModelsPage() {
                             <Bot className="w-5 h-5" />
                             {model.id}
                         </CardTitle>
-                        <CardDescription>Type: {model.type.toUpperCase()}</CardDescription>
+                        <CardDescription>Tipo: {model.type.toUpperCase()}</CardDescription>
                     </div>
                     <Badge variant={
                         model.status === 'production' ? 'default' :
@@ -81,13 +89,13 @@ export default function ModelsPage() {
                         model.status === 'production' && 'bg-green-600/20 text-green-400 border-green-600/30',
                         model.status === 'staging' && 'bg-yellow-600/20 text-yellow-400 border-yellow-600/30'
                     )}>
-                        {model.status}
+                        {getStatusLabel(model.status)}
                     </Badge>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow space-y-2">
                  <div className="text-sm text-muted-foreground">
-                    Created on {model.createdAt.toLocaleDateString()}
+                    Criado em {model.createdAt.toLocaleDateString()}
                  </div>
                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                     <div className="flex justify-between"><span>AUC:</span> <span className="font-mono">{model.metrics.auc.toFixed(3)}</span></div>
@@ -104,11 +112,11 @@ export default function ModelsPage() {
                     disabled={loading[model.id]}
                   >
                     {loading[model.id] ? <Cpu className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
-                    Promote to Production
+                    Promover para Produção
                   </Button>
                 )}
                  {model.status === "production" && (
-                    <p className="text-xs text-muted-foreground w-full text-center">Currently live and executing trades.</p>
+                    <p className="text-xs text-muted-foreground w-full text-center">Atualmente ativo e executando trades.</p>
                 )}
               </CardFooter>
             </Card>

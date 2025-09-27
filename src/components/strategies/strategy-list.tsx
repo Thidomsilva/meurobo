@@ -21,6 +21,9 @@ import { strategies } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export function StrategyList() {
+  const getStatusLabel = (active: boolean) => (active ? "Ativa" : "Pausada");
+  const getModeLabel = (mode: "live" | "paper") => (mode === 'live' ? "Real" : "Demo");
+
   return (
     <>
         {/* Mobile View */}
@@ -34,18 +37,18 @@ export function StrategyList() {
                                 <DropdownMenuTrigger asChild>
                                 <Button aria-haspopup="true" size="icon" variant="ghost">
                                     <MoreHorizontal className="h-4 w-4" />
-                                    <span className="sr-only">Toggle menu</span>
+                                    <span className="sr-only">Abrir menu</span>
                                 </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                <DropdownMenuLabel>Ações</DropdownMenuLabel>
                                 <DropdownMenuItem>
                                     {strategy.active ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
-                                    {strategy.active ? "Pause" : "Activate"}
+                                    {strategy.active ? "Pausar" : "Ativar"}
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>Edit</DropdownMenuItem>
+                                <DropdownMenuItem>Editar</DropdownMenuItem>
                                 <DropdownMenuItem className="text-red-500">
-                                    Delete
+                                    Excluir
                                 </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
@@ -61,9 +64,9 @@ export function StrategyList() {
                                     "hover:bg-transparent"
                                 )}
                             >
-                                {strategy.active ? "Active" : "Paused"}
+                                {getStatusLabel(strategy.active)}
                             </Badge>
-                             <Badge variant="outline">{strategy.mode}</Badge>
+                             <Badge variant="outline">{getModeLabel(strategy.mode)}</Badge>
                         </div>
                         <div className="font-mono text-xs text-muted-foreground">
                             Up: {strategy.thUp}, Down: {strategy.thDown}
@@ -76,18 +79,18 @@ export function StrategyList() {
         {/* Desktop View */}
         <Card className="hidden md:block">
         <CardHeader>
-            <CardTitle>Your Strategies</CardTitle>
+            <CardTitle>Suas Estratégias</CardTitle>
         </CardHeader>
         <CardContent>
             <Table>
             <TableHeader>
                 <TableRow>
-                <TableHead>Name</TableHead>
+                <TableHead>Nome</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Mode</TableHead>
-                <TableHead className="hidden lg:table-cell">Pairs</TableHead>
-                <TableHead className="hidden lg:table-cell">AI Thresholds</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Modo</TableHead>
+                <TableHead className="hidden lg:table-cell">Ativos</TableHead>
+                <TableHead className="hidden lg:table-cell">Limites IA</TableHead>
+                <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -102,11 +105,11 @@ export function StrategyList() {
                             "hover:bg-transparent"
                         )}
                     >
-                        {strategy.active ? "Active" : "Paused"}
+                        {getStatusLabel(strategy.active)}
                     </Badge>
                     </TableCell>
                     <TableCell>
-                    <Badge variant="outline">{strategy.mode}</Badge>
+                    <Badge variant="outline">{getModeLabel(strategy.mode)}</Badge>
                     </TableCell>
                     <TableCell className="hidden lg:table-cell font-mono text-xs">
                     {strategy.pairs.join(", ")}
@@ -121,18 +124,18 @@ export function StrategyList() {
                         <DropdownMenuTrigger asChild>
                         <Button aria-haspopup="true" size="icon" variant="ghost">
                             <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Toggle menu</span>
+                            <span className="sr-only">Abrir menu</span>
                         </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
                         <DropdownMenuItem>
                             {strategy.active ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
-                            {strategy.active ? "Pause" : "Activate"}
+                            {strategy.active ? "Pausar" : "Ativar"}
                         </DropdownMenuItem>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem>Editar</DropdownMenuItem>
                         <DropdownMenuItem className="text-red-500">
-                            Delete
+                            Excluir
                         </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

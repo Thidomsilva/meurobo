@@ -5,7 +5,7 @@ import { StrategyList } from "@/components/strategies/strategy-list";
 export default function StrategiesPage() {
   return (
     <>
-      <PageHeader title="Strategies">
+      <PageHeader title="Estratégias">
         <CreateStrategyDialog />
       </PageHeader>
       <main className="flex-1 overflow-auto p-4 md:p-8">

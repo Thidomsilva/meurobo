@@ -3,12 +3,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarFooter,
+  SidebarHeader as CSidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
+  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Icons } from "@/components/icons";
 import {
@@ -16,7 +16,6 @@ import {
   Bot,
   Settings,
   Presentation,
-  UserCircle,
 } from "lucide-react";
 import {
   Avatar,
@@ -43,14 +42,14 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader>
+      <CSidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2.5">
           <Icons.logo className="size-7 text-primary" />
           <span className="font-headline text-lg font-semibold tracking-tight">
             TradeAlchemistAI
           </span>
         </Link>
-      </SidebarHeader>
+      </CSidebarHeader>
       <SidebarContent>
         <SidebarMenu>
           {links.map((link) => (
@@ -93,7 +92,7 @@ export function AppSidebar() {
                     <AvatarImage src="https://picsum.photos/seed/user/32/32" data-ai-hint="profile picture" />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
-                  <span>Conta de Usuário</span>
+                  <span>Conta</span>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="end" className="w-56">
