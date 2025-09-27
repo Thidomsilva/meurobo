@@ -20,7 +20,7 @@ export function DashboardStats() {
             ${dashboardStats.balance.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
           </div>
           <p className="text-xs text-muted-foreground">
-            +2.5% from last session
+            +2.5% da última sessão
           </p>
         </CardContent>
       </Card>
