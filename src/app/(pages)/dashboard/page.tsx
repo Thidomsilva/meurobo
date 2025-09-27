@@ -8,8 +8,9 @@ export default function DashboardPage() {
   return (
     <>
       <PageHeader title="Dashboard">
-        <div className="hidden md:block">
-          <Button>Start Session</Button>
+        <div className="flex items-center gap-2">
+            <Button className="md:hidden">Start</Button>
+            <Button className="hidden md:block">Start Session</Button>
         </div>
       </PageHeader>
       <main className="flex-1 space-y-4 overflow-auto p-4 md:p-8">
