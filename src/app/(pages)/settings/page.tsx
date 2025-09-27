@@ -1,3 +1,4 @@
+
 "use client";
 
 import { PageHeader } from "@/components/layout/page-header";
@@ -25,7 +26,15 @@ export default function SettingsPage() {
   const handleConnect = (event: React.FormEvent) => {
     event.preventDefault();
     setConnectionStatus("connecting");
+
+    const formData = new FormData(event.target as HTMLFormElement);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    // Simulate API call delay
     setTimeout(() => {
+      // Mocked credentials check
+      if (email === "admin@tradealchemist.ai" && password === "admin") {
         setConnectionStatus("connected");
         // In a real scenario, these values would be fetched from the broker.
         updateBalances({ real: 15750.25, demo: 10000.00 }); 
@@ -33,6 +42,14 @@ export default function SettingsPage() {
             title: "Conexão Bem-sucedida",
             description: "Sua conta IQOption foi conectada e os saldos atualizados.",
         });
+      } else {
+        setConnectionStatus("failed");
+        toast({
+            variant: "destructive",
+            title: "Falha na Conexão",
+            description: "Email ou senha inválidos. Verifique suas credenciais.",
+        });
+      }
     }, 2000);
   };
   
@@ -61,11 +78,11 @@ export default function SettingsPage() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="user@example.com" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
+                  <Input id="email" name="email" type="email" placeholder="admin@tradealchemist.ai" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Senha</Label>
-                  <Input id="password" type="password" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
+                  <Input id="password" name="password" type="password" placeholder="admin" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center border-t px-6 py-4">
@@ -85,7 +102,7 @@ export default function SettingsPage() {
                     </span>
                 </div>
                 {connectionStatus === 'connected' ? (
-                    <Button variant="destructive" onClick={handleDisconnect}>Desconectar</Button>
+                    <Button variant="destructive" type="button" onClick={handleDisconnect}>Desconectar</Button>
                 ) : (
                     <Button type="submit" disabled={connectionStatus === 'connecting'}>
                         {connectionStatus === 'connecting' ? 'Conectando...' : 'Conectar Conta'}
