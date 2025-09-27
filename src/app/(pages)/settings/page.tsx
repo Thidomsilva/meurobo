@@ -22,15 +22,13 @@ import { useBroker } from "@/contexts/broker-context";
 export default function SettingsPage() {
   const { toast } = useToast();
   const { connectionStatus, setConnectionStatus, updateBalances } = useBroker();
+  const [email, setEmail] = useState("admin@tradealchemist.ai");
+  const [password, setPassword] = useState("admin");
+
 
   const handleConnect = (event: React.FormEvent) => {
     event.preventDefault();
     setConnectionStatus("connecting");
-
-    const form = event.target as HTMLFormElement;
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
-
 
     // Simulate API call delay
     setTimeout(() => {
@@ -79,11 +77,11 @@ export default function SettingsPage() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" placeholder="admin@tradealchemist.ai" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
+                  <Input id="email" name="email" type="email" placeholder="admin@tradealchemist.ai" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Senha</Label>
-                  <Input id="password" name="password" type="password" placeholder="admin" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
+                  <Input id="password" name="password" type="password" placeholder="admin" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center border-t px-6 py-4">
