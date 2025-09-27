@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,17 +20,31 @@ import { CandlestickChartComponent } from "@/components/trade/candlestick-chart"
 import { PageHeader } from "@/components/layout/page-header";
 import { ArrowDown, ArrowUp } from "lucide-react";
 
+const availablePairs = ["EURUSD", "GBPJPY", "AUDCAD", "USDJPY", "EURGBP", "USDCAD"];
 
 export default function TradePage() {
+  const [activePair, setActivePair] = useState("EURUSD");
+
   return (
     <>
-      <PageHeader title="Operar" subtitle="EURUSD | M1" />
+      <PageHeader title="Operar">
+         <Select value={activePair} onValueChange={setActivePair}>
+            <SelectTrigger className="w-[140px]">
+                <SelectValue placeholder="Ativo" />
+            </SelectTrigger>
+            <SelectContent>
+                {availablePairs.map(pair => (
+                    <SelectItem key={pair} value={pair}>{pair}</SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
+      </PageHeader>
       <main className="flex-1 overflow-auto p-4 md:p-8 space-y-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
             <Card>
               <CardContent className="p-2">
-                <CandlestickChartComponent />
+                <CandlestickChartComponent key={activePair} />
               </CardContent>
             </Card>
           </div>
