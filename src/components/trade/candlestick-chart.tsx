@@ -10,6 +10,40 @@ import {
 } from "recharts";
 import { chartData } from "@/lib/data";
 
+const Candlestick = (props: any) => {
+  const { x, width, low, high, value } = props;
+  const isRising = value[1] >= value[0];
+  const color = isRising ? "#26A69A" : "#EF5350";
+  
+  const yAxis = props.yAxis;
+  if (!yAxis) return null; // Guard clause
+
+  const y1 = yAxis.scale(high);
+  const y2 = yAxis.scale(low);
+
+  const openY = yAxis.scale(value[0]);
+  const closeY = yAxis.scale(value[1]);
+
+  const bodyY = isRising ? closeY : openY;
+  const bodyHeight = Math.max(1, Math.abs(openY - closeY));
+
+
+  return (
+    <g stroke={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} fill={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} strokeWidth="1">
+       {/* High-Low Wick */}
+       <line x1={x + width / 2} y1={y1} x2={x + width / 2} y2={y2} />
+       
+       {/* Candle Body */}
+      <rect
+        x={x}
+        y={bodyY}
+        width={width}
+        height={bodyHeight}
+      />
+    </g>
+  );
+};
+
 export function CandlestickChartComponent() {
   return (
     <div style={{ width: "100%", height: 350 }}>
@@ -60,34 +94,3 @@ export function CandlestickChartComponent() {
     </div>
   );
 }
-
-const Candlestick = (props: any) => {
-  const { x, y: yCoord, width, height: barHeight, low, high, value, open, close } = props;
-  const isRising = value[1] >= value[0];
-  const color = isRising ? "#26A69A" : "#EF5350";
-  
-  const y1 = props.yAxis.scale(high);
-  const y2 = props.yAxis.scale(low);
-
-  const openY = props.yAxis.scale(value[0]);
-  const closeY = props.yAxis.scale(value[1]);
-
-  const bodyY = isRising ? closeY : openY;
-  const bodyHeight = Math.max(1, Math.abs(openY - closeY));
-
-
-  return (
-    <g stroke={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} fill={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} strokeWidth="1">
-       {/* High-Low Wick */}
-       <line x1={x + width / 2} y1={y1} x2={x + width / 2} y2={y2} />
-       
-       {/* Candle Body */}
-      <rect
-        x={x}
-        y={bodyY}
-        width={width}
-        height={bodyHeight}
-      />
-    </g>
-  );
-};
