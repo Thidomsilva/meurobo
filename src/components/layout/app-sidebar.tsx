@@ -10,6 +10,11 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import {
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { Icons } from "@/components/icons";
 import {
   LayoutDashboard,
@@ -33,9 +38,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const links = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/strategies", label: "Strategies", icon: Presentation },
-  { href: "/models", label: "AI Models", icon: Bot },
+  { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
+  { href: "/strategies", label: "Estratégias", icon: Presentation },
+  { href: "/models", label: "Modelos IA", icon: Bot },
 ];
 
 export function AppSidebar() {
@@ -43,6 +48,12 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
+       <SheetHeader className="p-4 md:hidden">
+          <SheetTitle>Menu</SheetTitle>
+          <SheetDescription>
+            Navegue pelas seções da aplicação.
+          </SheetDescription>
+        </SheetHeader>
       <SidebarHeader>
         <Link href="/dashboard" className="flex items-center gap-2.5">
           <Icons.logo className="size-7 text-primary" />
@@ -75,11 +86,11 @@ export function AppSidebar() {
              <SidebarMenuButton
                 asChild
                 isActive={pathname.startsWith('/settings')}
-                tooltip={{ children: "Settings", side: "right", align: "center" }}
+                tooltip={{ children: "Configurações", side: "right", align: "center" }}
               >
                 <Link href="/settings">
                   <Settings />
-                  <span>Settings</span>
+                  <span>Configurações</span>
                 </Link>
               </SidebarMenuButton>
           </SidebarMenuItem>
@@ -87,23 +98,23 @@ export function AppSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
-                  tooltip={{ children: "User Account", side: "right", align: "center" }}
+                  tooltip={{ children: "Conta de Usuário", side: "right", align: "center" }}
                 >
                   <Avatar className="size-6">
                     <AvatarImage src="https://picsum.photos/seed/user/32/32" data-ai-hint="profile picture" />
                     <AvatarFallback>U</AvatarFallback>
                   </Avatar>
-                  <span>User Account</span>
+                  <span>Conta de Usuário</span>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Support</DropdownMenuItem>
+                <DropdownMenuItem>Perfil</DropdownMenuItem>
+                <DropdownMenuItem>Faturamento</DropdownMenuItem>
+                <DropdownMenuItem>Suporte</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Log out</DropdownMenuItem>
+                <DropdownMenuItem>Sair</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
