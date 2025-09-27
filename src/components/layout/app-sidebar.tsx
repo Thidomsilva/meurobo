@@ -12,10 +12,11 @@ import {
 } from "@/components/ui/sidebar";
 import { Icons } from "@/components/icons";
 import {
-  LayoutDashboard,
+  CandlestickChart,
   Bot,
   Settings,
   Presentation,
+  History,
 } from "lucide-react";
 import {
   Avatar,
@@ -32,9 +33,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const links = [
-  { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
+  { href: "/trade", label: "Operar", icon: CandlestickChart },
   { href: "/strategies", label: "Estratégias", icon: Presentation },
   { href: "/models", label: "Modelos IA", icon: Bot },
+  { href: "/history", label: "Histórico", icon: History },
 ];
 
 export function AppSidebar() {
@@ -43,7 +45,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <CSidebarHeader>
-        <Link href="/dashboard" className="flex items-center gap-2.5">
+        <Link href="/trade" className="flex items-center gap-2.5">
           <Icons.logo className="size-7 text-primary" />
           <span className="font-headline text-lg font-semibold tracking-tight">
             TradeAlchemistAI
@@ -90,9 +92,9 @@ export function AppSidebar() {
                 >
                   <Avatar className="size-6">
                     <AvatarImage src="https://picsum.photos/seed/user/32/32" data-ai-hint="profile picture" />
-                    <AvatarFallback>U</AvatarFallback>
+                    <AvatarFallback>T</AvatarFallback>
                   </Avatar>
-                  <span>Conta</span>
+                  <span>Thalita</span>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent side="right" align="end" className="w-56">

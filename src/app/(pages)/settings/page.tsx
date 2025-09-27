@@ -32,14 +32,14 @@ export default function SettingsPage() {
       if (success) {
         setConnectionStatus("connected");
         toast({
-          title: "Connection Successful",
-          description: "Your IQOption account has been connected.",
+          title: "Conexão Bem-sucedida",
+          description: "Sua conta IQOption foi conectada.",
         });
       } else {
         setConnectionStatus("failed");
         toast({
-          title: "Connection Failed",
-          description: "Please check your credentials and try again.",
+          title: "Falha na Conexão",
+          description: "Por favor, verifique suas credenciais e tente novamente.",
           variant: "destructive",
         });
       }
@@ -49,21 +49,21 @@ export default function SettingsPage() {
   const handleDisconnect = () => {
     setConnectionStatus("disconnected");
     toast({
-        title: "Disconnected",
-        description: "Your IQOption account has been disconnected.",
+        title: "Desconectado",
+        description: "Sua conta IQOption foi desconectada.",
     });
   }
 
   return (
     <>
-      <PageHeader title="Settings" />
+      <PageHeader title="Configurações" />
       <main className="flex-1 overflow-auto p-4 md:p-8">
         <div className="mx-auto grid w-full max-w-2xl gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>IQOption Account</CardTitle>
+              <CardTitle>Conta IQOption</CardTitle>
               <CardDescription>
-                Connect your account to enable automated trading. Your credentials are encrypted and stored securely.
+                Conecte sua conta para habilitar o trading automatizado. Suas credenciais são criptografadas e armazenadas com segurança.
               </CardDescription>
             </CardHeader>
             <form onSubmit={handleConnect}>
@@ -73,7 +73,7 @@ export default function SettingsPage() {
                   <Input id="email" type="email" placeholder="user@example.com" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Senha</Label>
                   <Input id="password" type="password" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} />
                 </div>
               </CardContent>
@@ -87,17 +87,17 @@ export default function SettingsPage() {
                         connectionStatus === 'failed' ? 'text-red-500' :
                         'text-muted-foreground'
                     }>
-                        {connectionStatus === 'disconnected' && 'Status: Not Connected'}
-                        {connectionStatus === 'connecting' && 'Status: Connecting...'}
-                        {connectionStatus === 'connected' && 'Status: Connected'}
-                        {connectionStatus === 'failed' && 'Status: Connection Failed'}
+                        {connectionStatus === 'disconnected' && 'Status: Não Conectado'}
+                        {connectionStatus === 'connecting' && 'Status: Conectando...'}
+                        {connectionStatus === 'connected' && 'Status: Conectado'}
+                        {connectionStatus === 'failed' && 'Status: Falha na Conexão'}
                     </span>
                 </div>
                 {connectionStatus === 'connected' ? (
-                    <Button variant="destructive" onClick={handleDisconnect}>Disconnect</Button>
+                    <Button variant="destructive" onClick={handleDisconnect}>Desconectar</Button>
                 ) : (
                     <Button type="submit" disabled={connectionStatus === 'connecting'}>
-                        {connectionStatus === 'connecting' ? 'Connecting...' : 'Connect Account'}
+                        {connectionStatus === 'connecting' ? 'Conectando...' : 'Conectar Conta'}
                     </Button>
                 )}
               </CardFooter>
@@ -106,23 +106,23 @@ export default function SettingsPage() {
           
           <Card>
             <CardHeader>
-              <CardTitle>Preferences</CardTitle>
+              <CardTitle>Preferências</CardTitle>
               <CardDescription>
-                Manage your application settings.
+                Gerencie as configurações da sua aplicação.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="flex items-center justify-between rounded-lg border p-4">
                     <div>
-                        <Label htmlFor="notifications-switch">Email Notifications</Label>
-                        <p className="text-xs text-muted-foreground">Receive summaries and alerts via email.</p>
+                        <Label htmlFor="notifications-switch">Notificações por Email</Label>
+                        <p className="text-xs text-muted-foreground">Receba resumos e alertas por email.</p>
                     </div>
                     <Switch id="notifications-switch" />
                 </div>
                  <div className="flex items-center justify-between rounded-lg border p-4">
                     <div>
-                        <Label htmlFor="ia-status-switch">Require "IA: ON"</Label>
-                        <p className="text-xs text-muted-foreground">Hard block session start if AI service is offline.</p>
+                        <Label htmlFor="ia-status-switch">Exigir "IA: ON"</Label>
+                        <p className="text-xs text-muted-foreground">Bloquear início de sessão se o serviço de IA estiver offline.</p>
                     </div>
                     <Switch id="ia-status-switch" defaultChecked disabled />
                 </div>

@@ -71,6 +71,26 @@ export const equityData = [
   { date: "2024-07-10", balance: 11250.50 },
 ];
 
+export const chartData = [
+  { time: "16:30", value: [1.0742, 1.0745], low: 1.0741, high: 1.0746 },
+  { time: "16:31", value: [1.0745, 1.0743], low: 1.0742, high: 1.0747 },
+  { time: "16:32", value: [1.0743, 1.0748], low: 1.0742, high: 1.0749 },
+  { time: "16:33", value: [1.0748, 1.0747], low: 1.0746, high: 1.0750 },
+  { time: "16:34", value: [1.0747, 1.0751], low: 1.0746, high: 1.0752 },
+  { time: "16:35", value: [1.0751, 1.0750], low: 1.0749, high: 1.0753 },
+  { time: "16:36", value: [1.0750, 1.0755], low: 1.0749, high: 1.0756 },
+  { time: "16:37", value: [1.0755, 1.0754], low: 1.0753, high: 1.0757 },
+  { time: "16:38", value: [1.0754, 1.0752], low: 1.0751, high: 1.0755 },
+  { time: "16:39", value: [1.0752, 1.0758], low: 1.0751, high: 1.0759 },
+  { time: "16:40", value: [1.0758, 1.0757], low: 1.0756, high: 1.0760 },
+  { time: "16:41", value: [1.0757, 1.0762], low: 1.0756, high: 1.0763 },
+  { time: "16:42", value: [1.0762, 1.0761], low: 1.0760, high: 1.0764 },
+  { time: "16:43", value: [1.0761, 1.0759], low: 1.0758, high: 1.0762 },
+  { time: "16:44", value: [1.0759, 1.0763], low: 1.0758, high: 1.0764 },
+  { time: "16:45", value: [1.0763, 1.0765], low: 1.0762, high: 1.0766 },
+];
+
+
 export const recentTrades: TradeOrder[] = [
   {
     id: "ord_1",
