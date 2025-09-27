@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useCallback } from "react";
 
 type AccountType = "real" | "demo";
 
@@ -14,6 +14,7 @@ interface BrokerContextType {
   updateBalances: (balances: { real: number; demo: number }) => void;
   activeAccount: AccountType;
   setActiveAccount: (account: AccountType) => void;
+  fetchAvailablePairs: () => Promise<string[]>;
 }
 
 const BrokerContext = createContext<BrokerContextType | undefined>(undefined);
@@ -26,6 +27,22 @@ export const BrokerProvider = ({ children }: { children: ReactNode }) => {
   const updateBalances = (newBalances: { real: number; demo: number }) => {
     setBalances(newBalances);
   };
+  
+  const fetchAvailablePairs = useCallback(async (): Promise<string[]> => {
+    // In a real application, this would make an API call to the broker
+    // or use the automation bot to scrape the available pairs.
+    console.log("Fetching available pairs from broker...");
+    // Simulating a network delay
+    await new Promise(resolve => setTimeout(resolve, 500)); 
+    
+    if (connectionStatus !== 'connected') {
+        console.warn("Cannot fetch pairs, broker is not connected.");
+        return [];
+    }
+    
+    // Returning a static list for demonstration purposes
+    return ["EURUSD", "GBPJPY", "AUDCAD", "USDJPY", "EURGBP", "USDCAD", "AUDUSD", "NZDUSD"];
+  }, [connectionStatus]);
 
   return (
     <BrokerContext.Provider
@@ -36,6 +53,7 @@ export const BrokerProvider = ({ children }: { children: ReactNode }) => {
         updateBalances,
         activeAccount,
         setActiveAccount,
+        fetchAvailablePairs
       }}
     >
       {children}

@@ -26,19 +26,19 @@ export default function SettingsPage() {
     event.preventDefault();
     setConnectionStatus("connecting");
     setTimeout(() => {
-      // Simulate a successful API call
-      setConnectionStatus("connected");
-      updateBalances({ real: 15750.25, demo: 10000.00 });
-      toast({
-        title: "Conexão Bem-sucedida",
-        description: "Sua conta IQOption foi conectada e os saldos atualizados.",
-      });
+        setConnectionStatus("connected");
+        // In a real scenario, these values would be fetched from the broker.
+        updateBalances({ real: 15750.25, demo: 10000.00 }); 
+        toast({
+            title: "Conexão Bem-sucedida",
+            description: "Sua conta IQOption foi conectada e os saldos atualizados.",
+        });
     }, 2000);
   };
   
   const handleDisconnect = () => {
     setConnectionStatus("disconnected");
-    // updateBalances({ real: 0, demo: 10000.00 }); // No longer resetting balances
+    // We keep the last known balances displayed
     toast({
         title: "Desconectado",
         description: "Sua conta IQOption foi desconectada.",

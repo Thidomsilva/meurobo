@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -18,24 +18,53 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { CandlestickChartComponent } from "@/components/trade/candlestick-chart";
 import { PageHeader } from "@/components/layout/page-header";
-import { ArrowDown, ArrowUp } from "lucide-react";
-
-const availablePairs = ["EURUSD", "GBPJPY", "AUDCAD", "USDJPY", "EURGBP", "USDCAD"];
+import { ArrowDown, ArrowUp, Loader } from "lucide-react";
+import { useBroker } from "@/contexts/broker-context";
 
 export default function TradePage() {
+  const { connectionStatus, fetchAvailablePairs } = useBroker();
   const [activePair, setActivePair] = useState("EURUSD");
+  const [availablePairs, setAvailablePairs] = useState<string[]>(["EURUSD"]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (connectionStatus === 'connected') {
+      setIsLoading(true);
+      fetchAvailablePairs()
+        .then(pairs => {
+          if (pairs.length > 0) {
+            setAvailablePairs(pairs);
+            if (!pairs.includes(activePair)) {
+              setActivePair(pairs[0]);
+            }
+          }
+        })
+        .finally(() => setIsLoading(false));
+    } else {
+        // If not connected, show a default list
+        setAvailablePairs(["EURUSD"]);
+        setActivePair("EURUSD");
+        setIsLoading(false);
+    }
+  }, [connectionStatus, fetchAvailablePairs, activePair]);
 
   return (
     <>
-      <PageHeader title="Operar">
-         <Select value={activePair} onValueChange={setActivePair}>
+      <PageHeader title={`Operar: ${activePair}`}>
+         <Select value={activePair} onValueChange={setActivePair} disabled={isLoading || connectionStatus !== 'connected'}>
             <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Ativo" />
+                <SelectValue placeholder={isLoading ? "Carregando..." : "Ativo"} />
             </SelectTrigger>
             <SelectContent>
-                {availablePairs.map(pair => (
-                    <SelectItem key={pair} value={pair}>{pair}</SelectItem>
-                ))}
+                {isLoading ? (
+                    <div className="flex items-center justify-center p-2">
+                        <Loader className="w-4 h-4 animate-spin" />
+                    </div>
+                ) : (
+                    availablePairs.map(pair => (
+                        <SelectItem key={pair} value={pair}>{pair}</SelectItem>
+                    ))
+                )}
             </SelectContent>
         </Select>
       </PageHeader>
