@@ -24,7 +24,7 @@ import { strategies } from "@/lib/data";
 export default function DashboardPage() {
   return (
     <>
-      <PageHeader title="Dashboard" />
+      <PageHeader title="Painel" />
       <main className="flex-1 space-y-4 overflow-auto p-4 md:p-8">
         <div className="grid gap-4 lg:grid-cols-2">
           <Card className="lg:col-span-1">
