@@ -17,6 +17,7 @@ import {
   Settings,
   Presentation,
   History,
+  LayoutDashboard,
 } from "lucide-react";
 import {
   Avatar,
@@ -33,6 +34,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const links = [
+  { href: "/dashboard", label: "Painel", icon: LayoutDashboard },
   { href: "/trade", label: "Operar", icon: CandlestickChart },
   { href: "/strategies", label: "Estratégias", icon: Presentation },
   { href: "/models", label: "Modelos IA", icon: Bot },

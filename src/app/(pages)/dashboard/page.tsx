@@ -27,6 +27,7 @@ export default function DashboardPage() {
     <>
       <PageHeader title="Painel" />
       <main className="flex-1 space-y-4 overflow-auto p-4 md:p-8">
+        <DashboardStats />
         <div className="grid gap-4 lg:grid-cols-2">
             <Card className="lg:col-span-1">
               <CardHeader>
@@ -66,18 +67,12 @@ export default function DashboardPage() {
                 </Button>
               </CardContent>
             </Card>
-            <div className="hidden lg:block">
-              <DashboardStats />
-            </div>
-        </div>
-        <div className="block lg:hidden">
-            <DashboardStats />
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-            <div className="col-span-4">
+            <div className="lg:col-span-1">
                  <EquityChart />
             </div>
-            <div className="col-span-4 lg:col-span-3">
+        </div>
+        <div className="grid gap-4">
+            <div className="col-span-1">
                 <RecentTrades />
             </div>
         </div>
