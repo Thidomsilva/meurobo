@@ -39,6 +39,7 @@ const links = [
   { href: "/strategies", label: "Estratégias", icon: Presentation },
   { href: "/models", label: "Modelos IA", icon: Bot },
   { href: "/history", label: "Histórico", icon: History },
+  { href: "/settings", label: "Configurações", icon: Settings },
 ];
 
 export function AppSidebar() {
@@ -74,18 +75,6 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem>
-             <SidebarMenuButton
-                asChild
-                isActive={pathname.startsWith('/settings')}
-                tooltip={{ children: "Configurações", side: "right", align: "center" }}
-              >
-                <Link href="/settings">
-                  <Settings />
-                  <span>Configurações</span>
-                </Link>
-              </SidebarMenuButton>
-          </SidebarMenuItem>
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
