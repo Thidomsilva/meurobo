@@ -41,12 +41,12 @@ export default function TradePage() {
         })
         .finally(() => setIsLoading(false));
     } else {
-        // If not connected, show a default list
+        // If not connected, show a default list and stop loading
         setAvailablePairs(["EURUSD"]);
         setActivePair("EURUSD");
         setIsLoading(false);
     }
-  }, [connectionStatus, fetchAvailablePairs, activePair]);
+  }, [connectionStatus, fetchAvailablePairs]);
 
   return (
     <>

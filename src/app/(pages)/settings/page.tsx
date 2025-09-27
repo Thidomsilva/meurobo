@@ -38,7 +38,7 @@ export default function SettingsPage() {
   
   const handleDisconnect = () => {
     setConnectionStatus("disconnected");
-    // We keep the last known balances displayed
+    // We keep the last known balances displayed, just update status
     toast({
         title: "Desconectado",
         description: "Sua conta IQOption foi desconectada.",
