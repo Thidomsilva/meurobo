@@ -27,9 +27,10 @@ export default function SettingsPage() {
     event.preventDefault();
     setConnectionStatus("connecting");
 
-    const formData = new FormData(event.target as HTMLFormElement);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    const form = event.target as HTMLFormElement;
+    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+
 
     // Simulate API call delay
     setTimeout(() => {
