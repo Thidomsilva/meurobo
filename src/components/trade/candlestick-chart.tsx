@@ -1,6 +1,5 @@
 "use client";
 import {
-  CandlestickChart as RechartsCandlestick,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -63,26 +62,21 @@ export function CandlestickChartComponent() {
 }
 
 const Candlestick = (props: any) => {
-  const { x, y, width, height, low, high, openClose } = props;
-  const isRising = openClose[1] >= openClose[0];
+  const { x, y, width, height, low, high, value } = props;
+  const isRising = value[1] >= value[0];
   const color = isRising ? "#26A69A" : "#EF5350";
-  const wickRatio = Math.abs(height / (openClose[1] - openClose[0]));
-
-  const highWickY = y + (isRising ? (openClose[1] - high) * wickRatio : (openClose[0] - high) * wickRatio);
-  const lowWickY = y + (isRising ? (openClose[1] - low) * wickRatio : (openClose[0] - low) * wickRatio);
 
   return (
-    <g stroke={color} fill={color} strokeWidth="1">
-       {/* High Wick */}
-      <path d={`M ${x + width / 2} ${y} L ${x + width / 2} ${y + height}`} />
-
-      {/* Candle Body */}
+    <g stroke={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} fill={isRising ? 'rgb(38, 166, 154)' : 'rgb(239, 83, 80)'} strokeWidth="1">
+       {/* High-Low Wick */}
+       <line x1={x + width / 2} y1={y} x2={x + width / 2} y2={y + height} strokeWidth={1} />
+       
+       {/* Candle Body */}
       <rect
         x={x}
         y={y}
         width={width}
         height={height}
-        fill={color}
       />
     </g>
   );
