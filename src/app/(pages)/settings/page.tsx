@@ -81,7 +81,7 @@ export default function SettingsPage() {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password">Senha</Label>
-                  <Input id="password" name="password" type="password" placeholder="admin" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} value={password} onChange={(e) => setPassword(e.target.value)} />
+                  <Input id="password" name="password" type="password" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center border-t px-6 py-4">
