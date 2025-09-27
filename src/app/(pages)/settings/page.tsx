@@ -26,23 +26,13 @@ export default function SettingsPage() {
     event.preventDefault();
     setConnectionStatus("connecting");
     setTimeout(() => {
-      // Simulate API call result
-      const success = Math.random() > 0.3; // 70% success rate
-      if (success) {
-        setConnectionStatus("connected");
-        updateBalances({ real: 15750.25, demo: 10000.00 });
-        toast({
-          title: "Conexão Bem-sucedida",
-          description: "Sua conta IQOption foi conectada e os saldos atualizados.",
-        });
-      } else {
-        setConnectionStatus("failed");
-        toast({
-          title: "Falha na Conexão",
-          description: "Por favor, verifique suas credenciais e tente novamente.",
-          variant: "destructive",
-        });
-      }
+      // Simulate a successful API call
+      setConnectionStatus("connected");
+      updateBalances({ real: 15750.25, demo: 10000.00 });
+      toast({
+        title: "Conexão Bem-sucedida",
+        description: "Sua conta IQOption foi conectada e os saldos atualizados.",
+      });
     }, 2000);
   };
   
