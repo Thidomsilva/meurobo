@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import express, { Request, Response, NextFunction } from 'express';
-import cors, { CorsOptionsDelegate } from 'cors';
+import cors from 'cors';
 
 // Defina o domínio do frontend (ajuste para o domínio real do seu Fly)
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://meurobo-frontend.fly.dev';
@@ -9,14 +9,14 @@ import { iqOptionLogin, getIqOptionBalance, getIqOptionPairs } from './iqoption'
 
 const app = express();
 // CORS deve ser o primeiro middleware
-const corsOptions: CorsOptionsDelegate = (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+const corsOrigin = (requestOrigin: any, callback: any) => {
   // Permite requests sem origin (ex: curl, healthcheck)
-  if (!origin) return callback(null, true);
-  if (origin === FRONTEND_ORIGIN) return callback(null, true);
+  if (!requestOrigin) return callback(null, true);
+  if (requestOrigin === FRONTEND_ORIGIN) return callback(null, true);
   return callback(new Error('Not allowed by CORS'));
 };
 app.use(cors({
-  origin: corsOptions,
+  origin: corsOrigin,
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
