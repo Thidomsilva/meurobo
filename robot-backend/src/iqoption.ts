@@ -26,7 +26,7 @@ export async function iqOptionLogin(email: string, password: string): Promise<{ 
     const executablePath = resolveChromiumPath();
     console.log('Launching Chromium with path:', executablePath || '(default bundled)');
     browser = await puppeteerExtra.launch({
-      headless: true,
+      headless: false, // Mudado para false para debug
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -35,7 +35,7 @@ export async function iqOptionLogin(email: string, password: string): Promise<{ 
         '--no-zygote',
         '--disable-software-rasterizer'
       ],
-      timeout: 60000,
+      timeout: 90000, // Aumentado timeout
       executablePath
     });
     if (!browser) throw new Error('Falha ao iniciar o navegador');
@@ -43,16 +43,93 @@ export async function iqOptionLogin(email: string, password: string): Promise<{ 
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36');
     console.log('Acessando página de login IQOption com Stealth...');
     try {
-      await page.goto('https://login.iqoption.com/pt/login?redirect_url=traderoom%2F', { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.goto('https://login.iqoption.com/pt/login?redirect_url=traderoom%2F', { 
+        waitUntil: 'networkidle0', // Aguarda até não haver requests por 500ms
+        timeout: 90000 
+      });
     } catch (navErr: any) {
       console.error('Erro ao navegar para login:', navErr?.message || navErr);
       await browser.close();
       return { success: false, message: 'Falha ao carregar a página de login. Tente novamente.' };
     }
 
-    await page.waitForSelector('input[name="email"]', { timeout: 20000 });
-    await page.type('input[name="email"]', email);
-    await page.type('input[name="password"]', password);
+    console.log('Página carregada. Aguardando carregamento completo do React...');
+    
+    // Aguardar o React carregar completamente
+    await page.waitForFunction(() => {
+      const root = document.getElementById('root');
+      return root && root.children.length > 0;
+    }, { timeout: 30000 });
+    
+    console.log('React carregado. Aguardando campo de email...');
+    
+    // Debug: capturar screenshot e HTML para análise
+    await page.screenshot({ path: 'debug-login.png' });
+    const html = await page.content();
+    console.log('Título da página:', await page.title());
+    
+    // Tentar diferentes seletores de email baseados na estrutura da IQOption
+    const emailSelectors = [
+      'input[name="email"]',
+      'input[type="email"]',
+      'input[data-test="email"]',
+      'input[placeholder*="mail"]',
+      'input[placeholder*="Mail"]',
+      'input[autocomplete="email"]',
+      '.email input',
+      '[data-testid="email"] input',
+      'form input[type="text"]',
+      'form input:first-of-type'
+    ];
+    
+    let emailInput = null;
+    for (const selector of emailSelectors) {
+      try {
+        emailInput = await page.waitForSelector(selector, { timeout: 5000 });
+        console.log(`Campo de email encontrado com seletor: ${selector}`);
+        break;
+      } catch (e) {
+        console.log(`Seletor ${selector} não encontrado`);
+      }
+    }
+    
+    if (!emailInput) {
+      console.log('Nenhum campo de email encontrado. Salvando HTML para debug...');
+      const html = await page.content();
+      require('fs').writeFileSync('debug-page.html', html);
+      await browser.close();
+      return { success: false, message: 'Campo de email não encontrado na página de login.' };
+    }
+
+    // Buscar campo de senha
+    const passwordSelectors = [
+      'input[name="password"]',
+      'input[type="password"]',
+      'input[data-test="password"]',
+      '.password input',
+      '[data-testid="password"] input'
+    ];
+    
+    let passwordInput = null;
+    for (const selector of passwordSelectors) {
+      try {
+        passwordInput = await page.$(selector);
+        if (passwordInput) {
+          console.log(`Campo de senha encontrado com seletor: ${selector}`);
+          break;
+        }
+      } catch (e) {
+        console.log(`Seletor de senha ${selector} não encontrado`);
+      }
+    }
+
+    console.log('Preenchendo credenciais...');
+    await page.type(emailInput, email);
+    if (passwordInput) {
+      await page.type(passwordInput, password);
+    } else {
+      await page.type('input[type="password"]', password); // fallback
+    }
     await page.click('button[type="submit"]');
     console.log('Formulário de login enviado. Aguardando resposta...');
 

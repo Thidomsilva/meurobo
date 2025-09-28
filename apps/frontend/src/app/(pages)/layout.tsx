@@ -14,12 +14,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('isAuthenticated');
-    if (authStatus !== 'true') {
-      router.push('/login');
-    } else {
-      setIsAuthenticated(true);
-    }
+    // Desabilitado temporariamente - pular verificação de autenticação
+    setIsAuthenticated(true);
+    
+    // const authStatus = localStorage.getItem('isAuthenticated');
+    // if (authStatus !== 'true') {
+    //   router.push('/login');
+    // } else {
+    //   setIsAuthenticated(true);
+    // }
   }, [router, pathname]);
 
   if (isAuthenticated === null) {

@@ -5,6 +5,7 @@ import cors from 'cors';
 
 // Defina o domínio do frontend (ajuste para o domínio real do seu Fly)
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://meurobo-frontend.fly.dev';
+const LOCAL_FRONTEND = 'http://localhost:9002';
 import { iqOptionLogin, getIqOptionBalance, getIqOptionPairs } from './iqoption';
 
 const app = express();
@@ -12,7 +13,11 @@ const app = express();
 const corsOrigin = (requestOrigin: any, callback: any) => {
   // Permite requests sem origin (ex: curl, healthcheck)
   if (!requestOrigin) return callback(null, true);
+  // Permite frontend de produção
   if (requestOrigin === FRONTEND_ORIGIN) return callback(null, true);
+  // Permite frontend local
+  if (requestOrigin === LOCAL_FRONTEND) return callback(null, true);
+  console.log('CORS rejeitado para origem:', requestOrigin);
   return callback(new Error('Not allowed by CORS'));
 };
 app.use(cors({
@@ -29,7 +34,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 app.options('*', cors()); // Garante CORS para preflight/OPTIONS
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001; // Mudando para 4001 temporariamente
 
 app.use(express.json());
 

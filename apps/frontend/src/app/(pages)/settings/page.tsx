@@ -30,8 +30,13 @@ export default function SettingsPage() {
     event.preventDefault();
     setConnectionStatus("connecting");
 
+    // Debug da URL
+    console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+    console.log('Using URL:', `${apiUrl}/login`);
+
     // Chamada real para o backend
-  fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+  fetch(`${apiUrl}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -41,7 +46,7 @@ export default function SettingsPage() {
         if (data.success) {
           setConnectionStatus("connected");
           // Opcional: buscar saldo real após login
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/balance`, {
+          fetch(`${apiUrl}/balance`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
