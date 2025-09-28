@@ -15,7 +15,7 @@ export async function iqOptionLogin(email: string, password: string): Promise<{ 
         '--disable-dev-shm-usage',
         '--disable-gpu',
         '--no-zygote',
-        '--single-process'
+        '--disable-software-rasterizer'
       ],
       timeout: 60000,
       executablePath: process.env.PUPPETEER_EXECUTABLE_PATH

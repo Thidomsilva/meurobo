@@ -58,7 +58,10 @@ app.post('/login', async (req: Request, res: Response) => {
     if (!email || !password) {
       return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
     }
-    const result = await iqOptionLogin(email, password);
+    const result = await Promise.race([
+      iqOptionLogin(email, password),
+      new Promise<{ success: boolean; message: string }>((resolve) => setTimeout(() => resolve({ success: false, message: 'Tempo limite atingido ao tentar logar.' }), 90000))
+    ]);
     return res.status(200).json({ success: result.success, message: result.message });
   } catch (err: any) {
     console.error('Erro no /login:', err);
