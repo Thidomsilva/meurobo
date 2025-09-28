@@ -2,11 +2,24 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from 'express';
 import cors from 'cors';
+
+// Defina o domínio do frontend (ajuste para o domínio real do seu Vercel)
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://seu-frontend.vercel.app';
 import { iqOptionLogin, getIqOptionBalance, getIqOptionPairs } from './iqoption';
 
 const app = express();
 // CORS deve ser o primeiro middleware
-app.use(cors({ origin: true, credentials: true, methods: ['GET', 'POST', 'OPTIONS'] }));
+app.use(cors({
+  origin: (origin, callback) => {
+    // Permite requests sem origin (ex: curl, healthcheck)
+    if (!origin) return callback(null, true);
+    if (origin === FRONTEND_ORIGIN) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 // Log para depuração de preflight
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {

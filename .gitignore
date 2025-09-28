@@ -20,6 +20,7 @@
 # production
 /build
 
+
 # misc
 .DS_Store
 *.pem
@@ -33,12 +34,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 .genkit/*
-.env*
+# .env* removido para permitir build no Fly.io
 
 # firebase
 firebase-debug.log
