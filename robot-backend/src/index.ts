@@ -33,6 +33,14 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 
+// Handlers globais de erro não tratados
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
 // Mensagem amigável para a rota raiz
 app.get('/', (_req: Request, res: Response) => {
   res.send('🚀 Backend do robô de trading está rodando! Use /health para checar o status.');
@@ -45,12 +53,17 @@ app.get('/health', (_req: Request, res: Response) => {
 // Endpoint real de login na IQOption
 app.post('/login', async (req: Request, res: Response) => {
   console.log('POST /login recebido:', req.body);
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
+    }
+    const result = await iqOptionLogin(email, password);
+    return res.status(200).json({ success: result.success, message: result.message });
+  } catch (err: any) {
+    console.error('Erro no /login:', err);
+    return res.status(200).json({ success: false, message: `Erro inesperado: ${err?.message || String(err)}` });
   }
-  const result = await iqOptionLogin(email, password);
-  res.json({ success: result.success, message: result.message });
 });
 
 // Endpoint para buscar saldo após login
