@@ -30,26 +30,49 @@ export default function SettingsPage() {
     event.preventDefault();
     setConnectionStatus("connecting");
 
-    // Simulate API call delay
-    setTimeout(() => {
-      // Mocked credentials check
-      if (email === "admin@tradealchemist.ai" && password === "admin") {
-        setConnectionStatus("connected");
-        // In a real scenario, these values would be fetched from the broker.
-        updateBalances({ real: 15750.25, demo: 10000.00 }); 
-        toast({
+    // Chamada real para o backend
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (data.success) {
+          setConnectionStatus("connected");
+          // Opcional: buscar saldo real após login
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/balance`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          })
+            .then(async (res) => {
+              const balanceData = await res.json();
+              if (balanceData.success) {
+                updateBalances(balanceData.balance);
+              }
+            });
+          toast({
             title: "Conexão Bem-sucedida",
             description: "Sua conta IQOption foi conectada e os saldos atualizados.",
-        });
-      } else {
-        setConnectionStatus("failed");
-        toast({
+          });
+        } else {
+          setConnectionStatus("failed");
+          toast({
             variant: "destructive",
             title: "Falha na Conexão",
-            description: "Email ou senha inválidos. Verifique suas credenciais.",
+            description: data.message || "Email ou senha inválidos. Verifique suas credenciais.",
+          });
+        }
+      })
+      .catch(() => {
+        setConnectionStatus("failed");
+        toast({
+          variant: "destructive",
+          title: "Falha na Conexão",
+          description: "Erro ao conectar com o backend.",
         });
-      }
-    }, 2000);
+      });
   };
   
   const handleDisconnect = () => {

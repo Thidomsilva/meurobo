@@ -30,6 +30,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/robot/:path*',
+        destination: 'https://verbose-system-wr45q7jvrw643ggjr-4000.app.github.dev/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
