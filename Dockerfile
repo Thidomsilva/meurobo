@@ -47,4 +47,4 @@ COPY --from=backend-builder /app/robot-backend/node_modules ./robot-backend/node
 EXPOSE 3000 4000
 
 # Inicia backend e frontend juntos
-CMD ["sh", "-c", "node robot-backend/dist/index.js & PORT=3000 npm --prefix apps/frontend start"]
+CMD ["sh", "-c", "PORT=4000 node robot-backend/dist/index.js & PORT=3000 npm --prefix apps/frontend start"]
