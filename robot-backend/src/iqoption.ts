@@ -17,7 +17,8 @@ export async function iqOptionLogin(email: string, password: string): Promise<{ 
         '--no-zygote',
         '--single-process'
       ],
-      timeout: 60000
+      timeout: 60000,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH
     });
   if (!browser) throw new Error('Falha ao iniciar o navegador');
   const page = await browser.newPage();
