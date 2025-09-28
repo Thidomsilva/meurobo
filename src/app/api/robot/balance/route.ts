@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { iqOptionLogin, getIqOptionBalance } from '../../../../robot-backend/src/iqoption';
+import { iqOptionLogin, getIqOptionBalance } from '../lib/iqoption';
 
 export async function POST(req: NextRequest) {
   try {
