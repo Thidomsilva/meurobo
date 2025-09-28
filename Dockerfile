@@ -15,7 +15,7 @@ WORKDIR /app/robot-backend
 COPY robot-backend/package*.json ./
 RUN npm install --frozen-lockfile
 COPY robot-backend/ .
-RUN npm run build || true
+RUN npm run build
 
 # Etapa 3: Imagem final
 FROM node:20-slim
@@ -36,8 +36,8 @@ COPY --from=frontend-builder /app/frontend/node_modules ./apps/frontend/node_mod
 
 
 
-# Copia backend real (robot-backend)
-COPY --from=backend-builder /app/robot-backend/src ./robot-backend/src
+# Copia backend buildado (robot-backend)
+COPY --from=backend-builder /app/robot-backend/dist ./robot-backend/dist
 COPY --from=backend-builder /app/robot-backend/package.json ./robot-backend/package.json
 COPY --from=backend-builder /app/robot-backend/node_modules ./robot-backend/node_modules
 
@@ -47,4 +47,4 @@ COPY --from=backend-builder /app/robot-backend/node_modules ./robot-backend/node
 EXPOSE 3000 4000
 
 # Inicia backend e frontend juntos
-CMD ["sh", "-c", "node robot-backend/src/index.js & PORT=3000 npm --prefix apps/frontend start"]
+CMD ["sh", "-c", "node robot-backend/dist/index.js & PORT=3000 npm --prefix apps/frontend start"]
