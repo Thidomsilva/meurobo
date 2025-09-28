@@ -1,27 +1,28 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import express from 'express';
-import cors from 'cors';
+import express, { Request, Response, NextFunction } from 'express';
+import cors, { CorsOptionsDelegate } from 'cors';
 
-// Defina o domínio do frontend (ajuste para o domínio real do seu Vercel)
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://seu-frontend.vercel.app';
+// Defina o domínio do frontend (ajuste para o domínio real do seu Fly)
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://meurobo-frontend.fly.dev';
 import { iqOptionLogin, getIqOptionBalance, getIqOptionPairs } from './iqoption';
 
 const app = express();
 // CORS deve ser o primeiro middleware
+const corsOptions: CorsOptionsDelegate = (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+  // Permite requests sem origin (ex: curl, healthcheck)
+  if (!origin) return callback(null, true);
+  if (origin === FRONTEND_ORIGIN) return callback(null, true);
+  return callback(new Error('Not allowed by CORS'));
+};
 app.use(cors({
-  origin: (origin, callback) => {
-    // Permite requests sem origin (ex: curl, healthcheck)
-    if (!origin) return callback(null, true);
-    if (origin === FRONTEND_ORIGIN) return callback(null, true);
-    return callback(new Error('Not allowed by CORS'));
-  },
+  origin: corsOptions,
   credentials: true,
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 // Log para depuração de preflight
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   if (req.method === 'OPTIONS') {
     console.log('Preflight OPTIONS recebido para:', req.path);
   }
@@ -33,16 +34,16 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 
 // Mensagem amigável para a rota raiz
-app.get('/', (_req, res) => {
+app.get('/', (_req: Request, res: Response) => {
   res.send('🚀 Backend do robô de trading está rodando! Use /health para checar o status.');
 });
 
-app.get('/health', (_req, res) => {
+app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', message: 'Robot backend is running!' });
 });
 
 // Endpoint real de login na IQOption
-app.post('/login', async (req, res) => {
+app.post('/login', async (req: Request, res: Response) => {
   console.log('POST /login recebido:', req.body);
   const { email, password } = req.body;
   if (!email || !password) {
@@ -53,7 +54,7 @@ app.post('/login', async (req, res) => {
 });
 
 // Endpoint para buscar saldo após login
-app.post('/balance', async (req, res) => {
+app.post('/balance', async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
@@ -68,7 +69,7 @@ app.post('/balance', async (req, res) => {
 });
 
 // Endpoint para buscar pares disponíveis após login
-app.post('/pairs', async (req, res) => {
+app.post('/pairs', async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });

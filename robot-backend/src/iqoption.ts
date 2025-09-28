@@ -7,11 +7,22 @@ export async function iqOptionLogin(email: string, password: string): Promise<{ 
   puppeteerExtra.use(StealthPlugin());
   let browser: Browser | undefined;
   try {
-  browser = await puppeteerExtra.launch({ headless: false }); // modo visível para depuração
+  browser = await puppeteerExtra.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-gpu',
+        '--no-zygote',
+        '--single-process'
+      ],
+      timeout: 60000
+    });
   if (!browser) throw new Error('Falha ao iniciar o navegador');
   const page = await browser.newPage();
   console.log('Acessando página de login IQOption com Stealth...');
-  await page.goto('https://login.iqoption.com/pt/login?redirect_url=traderoom%2F');
+  await page.goto('https://login.iqoption.com/pt/login?redirect_url=traderoom%2F', { waitUntil: 'domcontentloaded', timeout: 60000 });
 
   await page.waitForSelector('input[name="email"]', { timeout: 15000 });
     await page.type('input[name="email"]', email);
@@ -19,7 +30,7 @@ export async function iqOptionLogin(email: string, password: string): Promise<{ 
     await page.click('button[type="submit"]');
     console.log('Formulário de login enviado. Aguardando resposta...');
 
-    await new Promise(resolve => setTimeout(resolve, 5000));
+  await new Promise(resolve => setTimeout(resolve, 5000));
     const url = page.url();
     console.log('URL após login:', url);
     if (url.includes('login')) {
