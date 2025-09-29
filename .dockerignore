@@ -1,22 +1,27 @@
-# flyctl launch added from .gitignore
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
-node_modules
-.pnp
-**/.pnp.*
-**/.yarn/*
-!**/.yarn/patches
-!**/.yarn/plugins
-!**/.yarn/releases
-!**/.yarn/versions
-
-# testing
-coverage
-
-# next.js
-.next
-out
+# Ultra-restritivo .dockerignore para reduzir contexto de build
+*
+!apps/frontend/
+apps/frontend/node_modules
+apps/frontend/.next
+apps/frontend/.git
+apps/frontend/*.log
+apps/frontend/.cache
+apps/frontend/.vscode
+apps/frontend/.idea
+apps/frontend/.DS_Store
+apps/frontend/Thumbs.db
+apps/frontend/coverage
+apps/frontend/__tests__
+apps/frontend/__mocks__
+apps/frontend/*.test.*
+apps/frontend/*.spec.*
+apps/frontend/cypress
+apps/frontend/.eslintcache
+apps/frontend/.sass-cache
+apps/frontend/.parcel-cache
+apps/frontend/.next/cache
+apps/frontend/public/sw.js
+apps/frontend/public/workbox-*
 
 # production
 build

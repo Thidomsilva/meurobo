@@ -24,6 +24,7 @@ export default function SettingsPage() {
   const { connectionStatus, setConnectionStatus, updateBalances } = useBroker();
   const [email, setEmail] = useState("admin@tradealchemist.ai");
   const [password, setPassword] = useState("admin");
+  const [selectedBroker, setSelectedBroker] = useState<"iqoption" | "avalon" | "pocketoption">("iqoption");
 
 
   const handleConnect = (event: React.FormEvent) => {
@@ -33,10 +34,15 @@ export default function SettingsPage() {
     // Debug da URL
     console.log('API URL:', process.env.NEXT_PUBLIC_API_URL);
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-    console.log('Using URL:', `${apiUrl}/login`);
+    
+    // Determinar endpoint baseado no broker selecionado
+    const endpoint = selectedBroker === "avalon" ? "/login-avalon" : 
+                    selectedBroker === "pocketoption" ? "/login-pocketoption" : 
+                    "/login";
+    console.log('Using URL:', `${apiUrl}${endpoint}`);
 
     // Chamada real para o backend
-  fetch(`${apiUrl}/login`, {
+  fetch(`${apiUrl}${endpoint}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -45,21 +51,67 @@ export default function SettingsPage() {
         const data = await res.json();
         if (data.success) {
           setConnectionStatus("connected");
-          // Opcional: buscar saldo real após login
-          fetch(`${apiUrl}/balance`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-          })
-            .then(async (res) => {
-              const balanceData = await res.json();
-              if (balanceData.success) {
-                updateBalances(balanceData.balance);
-              }
-            });
+          
+          // Buscar saldo baseado no broker selecionado
+          if (selectedBroker === "iqoption") {
+            // Para IQOption, tentar buscar saldo
+            fetch(`${apiUrl}/balance`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
+            })
+              .then(async (res) => {
+                const balanceData = await res.json();
+                if (balanceData.success) {
+                  updateBalances(balanceData.balance);
+                }
+              })
+              .catch(err => console.log('Erro ao buscar saldo IQOption:', err));
+          } else if (selectedBroker === "avalon") {
+            // Para Avalon, buscar saldo específico
+            fetch(`${apiUrl}/balance-avalon`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
+            })
+              .then(async (res) => {
+                const balanceData = await res.json();
+                console.log('Resposta saldo Avalon:', balanceData);
+                if (balanceData.success && balanceData.balance !== undefined) {
+                  updateBalances(balanceData.balance);
+                  toast({
+                    title: "Saldo Atualizado",
+                    description: `Saldo: ${balanceData.balance} ${balanceData.currency || 'USD'}`,
+                  });
+                }
+              })
+              .catch(err => console.log('Erro ao buscar saldo Avalon:', err));
+              
+            // Também buscar pares disponíveis
+            fetch(`${apiUrl}/pairs-avalon`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
+            })
+              .then(async (res) => {
+                const pairsData = await res.json();
+                console.log('Resposta pares Avalon:', pairsData);
+                if (pairsData.success && pairsData.pairs?.length > 0) {
+                  toast({
+                    title: "Pares Carregados",
+                    description: `${pairsData.pairs.length} pares disponíveis: ${pairsData.pairs.slice(0, 3).join(', ')}...`,
+                  });
+                }
+              })
+              .catch(err => console.log('Erro ao buscar pares Avalon:', err));
+          }
+          
+          const brokerName = selectedBroker === "avalon" ? "Avalon Broker" : 
+                            selectedBroker === "pocketoption" ? "Pocket Option" : 
+                            "IQOption";
           toast({
             title: "Conexão Bem-sucedida",
-            description: "Sua conta IQOption foi conectada e os saldos atualizados.",
+            description: `Sua conta ${brokerName} foi conectada com sucesso.`,
           });
         } else {
           setConnectionStatus("failed");
@@ -82,10 +134,12 @@ export default function SettingsPage() {
   
   const handleDisconnect = () => {
     setConnectionStatus("disconnected");
-    // We keep the last known balances displayed, just update status
+    const brokerName = selectedBroker === "avalon" ? "Avalon Broker" : 
+                      selectedBroker === "pocketoption" ? "Pocket Option" : 
+                      "IQOption";
     toast({
         title: "Desconectado",
-        description: "Sua conta IQOption foi desconectada.",
+        description: `Sua conta ${brokerName} foi desconectada.`,
     });
   }
 
@@ -96,13 +150,27 @@ export default function SettingsPage() {
         <div className="mx-auto grid w-full max-w-2xl gap-6">
           <Card>
             <CardHeader>
-              <CardTitle>Conta IQOption</CardTitle>
+              <CardTitle>Conexão com Broker</CardTitle>
               <CardDescription>
                 Conecte sua conta para habilitar o trading automatizado. Suas credenciais são criptografadas e armazenadas com segurança.
               </CardDescription>
             </CardHeader>
             <form onSubmit={handleConnect}>
               <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="broker">Broker</Label>
+                  <select 
+                    id="broker" 
+                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    value={selectedBroker}
+                    onChange={(e) => setSelectedBroker(e.target.value as "iqoption" | "avalon" | "pocketoption")}
+                    disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'}
+                  >
+                    <option value="iqoption">IQOption</option>
+                    <option value="avalon">Avalon Broker</option>
+                    <option value="pocketoption">Pocket Option</option>
+                  </select>
+                </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" name="email" type="email" placeholder="admin@tradealchemist.ai" required disabled={connectionStatus === 'connected' || connectionStatus === 'connecting'} value={email} onChange={(e) => setEmail(e.target.value)} />

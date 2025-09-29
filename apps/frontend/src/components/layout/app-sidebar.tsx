@@ -38,6 +38,7 @@ const links = [
   { href: "/trade", label: "Operar", icon: CandlestickChart },
   { href: "/strategies", label: "Estratégias", icon: Presentation },
   { href: "/models", label: "Modelos IA", icon: Bot },
+  { href: "/overlay", label: "Overlay Compacto", icon: Bot },
   { href: "/history", label: "Histórico", icon: History },
   { href: "/settings", label: "Configurações", icon: Settings },
 ];

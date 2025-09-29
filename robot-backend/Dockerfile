@@ -9,8 +9,12 @@ RUN apt-get update && \
 WORKDIR /app
 
 COPY package*.json ./
+COPY tsconfig.json ./
 RUN npm install
 COPY . .
+
+# Compilar TypeScript para JavaScript
+RUN npm run build
 
 # Garante que o Puppeteer baixe o Chromium na build
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=false

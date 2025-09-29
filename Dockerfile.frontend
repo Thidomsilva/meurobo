@@ -1,0 +1,53 @@
+# Ultra-otimized Dockerfile for Next.js frontend
+FROM node:18-alpine AS base
+# Install only essential dependencies
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Dependencies stage - cache optimized
+FROM base AS deps
+COPY apps/frontend/package*.json ./
+RUN npm ci --omit=dev --frozen-lockfile --prefer-offline && \
+    npm cache clean --force && \
+    rm -rf ~/.npm /tmp/*
+
+# Build stage - minimal
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY apps/frontend ./
+
+# Build optimizations
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_OUTPUT=standalone
+
+RUN npm run build && \
+    rm -rf node_modules .next/cache
+
+# Runtime - ultra minimal
+FROM node:18-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_PUBLIC_API_URL=https://robot-backend.fly.dev
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+# Copy only essential runtime files
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Remove any unnecessary files
+RUN rm -rf /usr/local/lib/node_modules/npm && \
+    rm -rf /tmp/* /var/cache/apk/*
+
+USER nextjs
+
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]

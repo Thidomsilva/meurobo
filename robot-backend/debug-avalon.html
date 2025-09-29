@@ -1,0 +1,110 @@
+<!DOCTYPE html><html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="imagetoolbar" content="no">
+    <meta name="msthemecompatible" content="no">
+    <meta name="cleartype" content="on">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="fragment" content="!">
+
+    <style type="text/css">
+      .mainPreloader {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        height: 100vh;
+        width: 100%;
+        width: 100vw;
+        pointer-events: none;
+        background-size: cover;
+        background-position: center center;
+        z-index: 6666;
+      }
+
+      .mainPreloader.animationHide {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(1.3);
+        transition: opacity .5s ease-out, transform .5s ease-out;
+      }
+
+      .loaderBg {
+        background: #fff;
+      }
+
+      .round {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 100px;
+        transform: translateZ(0);
+        z-index: 5;
+      }
+
+      .round::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .round::after {
+        content: '';
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        transform-origin: 50% 50%;
+        transform: translate3d(-50%, -50%, 0);
+        border-top: 2px solid rgb(203, 199, 199);
+        border-right: 2px solid rgb(203, 199, 199);
+        border-bottom: 2px solid rgb(203, 199, 199);
+        border-left: 2px solid #09af8e;
+        animation: rotateLoader 1.1s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+
+      @keyframes rotateLoader {
+        from {
+          transform: translate3d(-50%, -50%, 0) rotate(0deg);
+        }
+        to {
+          transform: translate3d(-50%, -50%, 0) rotate(360deg);
+        }
+      }
+    </style>
+<link href="https://static.cdnpub.cloud/avalonbroker/static/css/main.039dc8f976f386a5d425.css" rel="stylesheet"><style data-emotion=""></style><script charset="utf-8" src="https://static.cdnpub.cloud/avalonbroker/static/js/langs/pt-json.8c4e7c7405168b05485e.js"></script></head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WDFKQ2R8"
+            height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div id="root"></div>
+<div id="mainLoader" class="mainPreloader loaderBg">
+    <div class="round"></div>
+</div>
+
+
+<script src="https://connect.facebook.net/signals/config/8999669420055689?v=2.9.232&amp;r=stable&amp;domain=trade.avalonbroker.com&amp;hme=dcbbef44c997927c5af260dbc0059090127dce285cd316734e66d01ffe06084e&amp;ex_m=88%2C150%2C130%2C19%2C123%2C62%2C42%2C124%2C69%2C61%2C137%2C77%2C13%2C87%2C27%2C118%2C109%2C67%2C70%2C117%2C134%2C96%2C139%2C7%2C3%2C4%2C6%2C5%2C2%2C78%2C86%2C140%2C214%2C162%2C56%2C219%2C216%2C217%2C49%2C177%2C26%2C66%2C223%2C222%2C165%2C29%2C55%2C8%2C58%2C82%2C83%2C84%2C89%2C113%2C28%2C25%2C116%2C112%2C111%2C131%2C68%2C133%2C132%2C44%2C114%2C54%2C106%2C12%2C136%2C39%2C205%2C207%2C172%2C22%2C23%2C24%2C16%2C17%2C38%2C34%2C36%2C35%2C73%2C79%2C81%2C94%2C122%2C125%2C40%2C95%2C20%2C18%2C100%2C63%2C32%2C127%2C126%2C128%2C119%2C21%2C31%2C53%2C93%2C135%2C64%2C15%2C30%2C187%2C158%2C265%2C203%2C148%2C190%2C183%2C91%2C115%2C72%2C104%2C48%2C41%2C102%2C103%2C108%2C52%2C14%2C110%2C101%2C59%2C43%2C97%2C47%2C50%2C46%2C85%2C138%2C0%2C107%2C11%2C105%2C9%2C1%2C51%2C80%2C57%2C129%2C60%2C99%2C76%2C75%2C45%2C120%2C74%2C71%2C65%2C98%2C90%2C37%2C121%2C33%2C92%2C10%2C141" async=""></script><script type="text/javascript" async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-CJTPLKSC11&amp;cx=c&amp;gtm=4e59n2"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=AW-16881802151&amp;cx=c&amp;gtm=4e59n2"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=AW-17486017768&amp;cx=c&amp;gtm=4e59n2"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=AW-882031730&amp;cx=c&amp;gtm=4e59n2"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=AW-17492984689&amp;cx=c&amp;gtm=4e59n2"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-Q6BB5JBT2G&amp;cx=c&amp;gtm=4e59n2"></script><script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-R91MNNQEX0&amp;cx=c&amp;gtm=4e59n2"></script><script async="" src="//www.googletagmanager.com/gtm.js?id=GTM-WDFKQ2R8"></script><script type="text/javascript">!function(e){function a(a){for(var t,d,o=a[0],s=a[1],f=a[2],i=0,l=[];i<o.length;i++)d=o[i],Object.prototype.hasOwnProperty.call(n,d)&&n[d]&&l.push(n[d][0]),n[d]=0;for(t in s)Object.prototype.hasOwnProperty.call(s,t)&&(e[t]=s[t]);for(p&&p(a);l.length;)l.shift()();return r.push.apply(r,f||[]),c()}function c(){for(var e,a=0;a<r.length;a++){for(var c=r[a],t=!0,d=1;d<c.length;d++){var s=c[d];0!==n[s]&&(t=!1)}t&&(r.splice(a--,1),e=o(o.s=c[0]))}return e}var t={},d={16:0},n={16:0},r=[];function o(a){if(t[a])return t[a].exports;var c=t[a]={i:a,l:!1,exports:{}};return e[a].call(c.exports,c,c.exports,o),c.l=!0,c.exports}o.e=function(e){var a=[];d[e]?a.push(d[e]):0!==d[e]&&{31:1}[e]&&a.push(d[e]=new Promise(function(a,c){for(var t="css/"+({4:"@qc/chat",5:"classlist-polyfill",6:"components/UI/Modals/ForgetUserModal",7:"components/UI/Modals/GDPR",8:"components/UI/Modals/InternalTransferConfirm",9:"components/UI/Modals/LatestUpdates",10:"components/UI/PasswordStrength",11:"components/addons/Notifications",12:"langs/en-json",13:"langs/es-json",14:"langs/pt-json",17:"pages/Activate",18:"pages/ChangePassword",19:"pages/Consent",20:"pages/CostDisclosure",21:"pages/Counting",22:"pages/Download",23:"pages/EmailConfirm",24:"pages/Faq",25:"pages/InstallGuide",26:"pages/OAuth",27:"pages/OAuthError",28:"pages/PasswordRecovery",29:"pages/PhoneCodeVerify",30:"pages/Portfolio",31:"pages/Profile",32:"pages/SaveData",33:"pages/Subscription",34:"pages/Trading",35:"pages/Transactions",36:"pages/Trial",37:"pages/Unsubscribed",38:"pages/Verification",39:"pages/VerifyBankCards",40:"pages/Withdrawal",41:"redux-immutable-state-invariant",42:"redux-logger"}[e]||e)+"."+{0:"31d6cfe0d16ae931b73c",1:"31d6cfe0d16ae931b73c",2:"31d6cfe0d16ae931b73c",3:"31d6cfe0d16ae931b73c",4:"31d6cfe0d16ae931b73c",5:"31d6cfe0d16ae931b73c",6:"31d6cfe0d16ae931b73c",7:"31d6cfe0d16ae931b73c",8:"31d6cfe0d16ae931b73c",9:"31d6cfe0d16ae931b73c",10:"31d6cfe0d16ae931b73c",11:"31d6cfe0d16ae931b73c",12:"31d6cfe0d16ae931b73c",13:"31d6cfe0d16ae931b73c",14:"31d6cfe0d16ae931b73c",17:"31d6cfe0d16ae931b73c",18:"31d6cfe0d16ae931b73c",19:"31d6cfe0d16ae931b73c",20:"31d6cfe0d16ae931b73c",21:"31d6cfe0d16ae931b73c",22:"31d6cfe0d16ae931b73c",23:"31d6cfe0d16ae931b73c",24:"31d6cfe0d16ae931b73c",25:"31d6cfe0d16ae931b73c",26:"31d6cfe0d16ae931b73c",27:"31d6cfe0d16ae931b73c",28:"31d6cfe0d16ae931b73c",29:"31d6cfe0d16ae931b73c",30:"31d6cfe0d16ae931b73c",31:"4cf919753ee2a7967d57",32:"31d6cfe0d16ae931b73c",33:"31d6cfe0d16ae931b73c",34:"31d6cfe0d16ae931b73c",35:"31d6cfe0d16ae931b73c",36:"31d6cfe0d16ae931b73c",37:"31d6cfe0d16ae931b73c",38:"31d6cfe0d16ae931b73c",39:"31d6cfe0d16ae931b73c",40:"31d6cfe0d16ae931b73c",41:"31d6cfe0d16ae931b73c",42:"31d6cfe0d16ae931b73c"}[e]+".css",n=o.p+t,r=document.getElementsByTagName("link"),s=0;s<r.length;s++){var f=(p=r[s]).getAttribute("data-href")||p.getAttribute("href");if("stylesheet"===p.rel&&(f===t||f===n))return a()}var i=document.getElementsByTagName("style");for(s=0;s<i.length;s++){var p;if((f=(p=i[s]).getAttribute("data-href"))===t||f===n)return a()}var l=document.createElement("link");l.rel="stylesheet",l.type="text/css",l.onload=a,l.onerror=function(a){var t=a&&a.target&&a.target.src||n,r=new Error("Loading CSS chunk "+e+" failed.\n("+t+")");r.request=t,delete d[e],l.parentNode.removeChild(l),c(r)},l.href=n,document.getElementsByTagName("head")[0].appendChild(l)}).then(function(){d[e]=0}));var c=n[e];if(0!==c)if(c)a.push(c[2]);else{var t=new Promise(function(a,t){c=n[e]=[a,t]});a.push(c[2]=t);var r,s=document.createElement("script");s.charset="utf-8",s.timeout=120,o.nc&&s.setAttribute("nonce",o.nc),s.src=function(e){return o.p+"js/"+({4:"@qc/chat",5:"classlist-polyfill",6:"components/UI/Modals/ForgetUserModal",7:"components/UI/Modals/GDPR",8:"components/UI/Modals/InternalTransferConfirm",9:"components/UI/Modals/LatestUpdates",10:"components/UI/PasswordStrength",11:"components/addons/Notifications",12:"langs/en-json",13:"langs/es-json",14:"langs/pt-json",17:"pages/Activate",18:"pages/ChangePassword",19:"pages/Consent",20:"pages/CostDisclosure",21:"pages/Counting",22:"pages/Download",23:"pages/EmailConfirm",24:"pages/Faq",25:"pages/InstallGuide",26:"pages/OAuth",27:"pages/OAuthError",28:"pages/PasswordRecovery",29:"pages/PhoneCodeVerify",30:"pages/Portfolio",31:"pages/Profile",32:"pages/SaveData",33:"pages/Subscription",34:"pages/Trading",35:"pages/Transactions",36:"pages/Trial",37:"pages/Unsubscribed",38:"pages/Verification",39:"pages/VerifyBankCards",40:"pages/Withdrawal",41:"redux-immutable-state-invariant",42:"redux-logger"}[e]||e)+"."+{0:"50065f5f4fddd4135722",1:"687953be7d25400823d5",2:"642b3bcfef06ffa19001",3:"b0cea6ace6979149fbfc",4:"63b0c8337ce675ede67e",5:"7481daf547e5e97fee50",6:"915d8325255385b755fb",7:"6df0fd9b65a67c4948b5",8:"b2b03dee9a2b7834a678",9:"a66981e4dea44ee791f4",10:"1a7bf97d02a0bb8ef578",11:"b875097f3288914da9b3",12:"6fc412136c1e16391888",13:"ddb5ce25a155725ee9bb",14:"8c4e7c7405168b05485e",17:"0e3e395abfa2f3fd8085",18:"b952db269bd7ebf00854",19:"ab37021dc1e0ad596864",20:"87648168afea15693d7e",21:"93b22bda3b6cb6fca186",22:"90182a72baf415f9bc5e",23:"cbf626af9bd392290cb6",24:"8d51a56a7e8563343021",25:"0e774114cb3025bbcadb",26:"7d97be6614c994338b1b",27:"c7148cea7f2ad64afa73",28:"7b4f15c0cc58e1eaecf3",29:"ad54d80cfaa1c6d17bc8",30:"2b6515dbfb873a0eeb8f",31:"6721611fb07443548505",32:"49efc943731b7cefc7d4",33:"d060343f5a5734058907",34:"9f928e203492e4edeef8",35:"c8bba53eb20b249c50c7",36:"e8cdeebe2d973dfef783",37:"5afdf740f38ade8964ca",38:"2920dd61d66a532fcaa8",39:"c9e243528a7bf63838e4",40:"55069eb6ac49a95cb2e4",41:"3a3c5474331908f22eea",42:"6fc94a7ed9605742e3fa"}[e]+".js"}(e);var f=new Error;r=function(a){s.onerror=s.onload=null,clearTimeout(i);var c=n[e];if(0!==c){if(c){var t=a&&("load"===a.type?"missing":a.type),d=a&&a.target&&a.target.src;f.message="Loading chunk "+e+" failed.\n("+t+": "+d+")",f.name="ChunkLoadError",f.type=t,f.request=d,c[1](f)}n[e]=void 0}};var i=setTimeout(function(){r({type:"timeout",target:s})},12e4);s.onerror=s.onload=r,document.head.appendChild(s)}return Promise.all(a)},o.m=e,o.c=t,o.d=function(e,a,c){o.o(e,a)||Object.defineProperty(e,a,{enumerable:!0,get:c})},o.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},o.t=function(e,a){if(1&a&&(e=o(e)),8&a)return e;if(4&a&&"object"==typeof e&&e&&e.__esModule)return e;var c=Object.create(null);if(o.r(c),Object.defineProperty(c,"default",{enumerable:!0,value:e}),2&a&&"string"!=typeof e)for(var t in e)o.d(c,t,function(a){return e[a]}.bind(null,t));return c},o.n=function(e){var a=e&&e.__esModule?function(){return e.default}:function(){return e};return o.d(a,"a",a),a},o.o=function(e,a){return Object.prototype.hasOwnProperty.call(e,a)},o.p="https://static.cdnpub.cloud/avalonbroker/static/",o.oe=function(e){throw console.error(e),e};var s=window.webpackJsonp=window.webpackJsonp||[],f=s.push.bind(s);s.push=a,s=s.slice();for(var i=0;i<s.length;i++)a(s[i]);var p=f;c()}([]);</script><script type="text/javascript" src="https://static.cdnpub.cloud/avalonbroker/static/js/vendor.1a1565744f36c76d60e3.js"></script><script type="text/javascript" src="https://static.cdnpub.cloud/avalonbroker/static/js/main.a1653729fee4a1aec790.js"></script>
+
+<script type="text/javascript" id="" charset="">(function(){var a=new URLSearchParams(window.location.search);if(a=a.get("fbclid")){var c=90,b=new Date;b.setTime(b.getTime()+c*24*60*60*1E3);document.cookie="fbclid\x3d"+a+";expires\x3d"+b.toUTCString()+";path\x3d/;SameSite\x3dLax"}})();</script><iframe height="0" width="0" style="display: none; visibility: hidden;"></iframe>
+
+<script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/882031730/?random=1759101580634&amp;cv=11&amp;fst=1759101580634&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45be59n2v9225993599z89169817549za200zb9169817549zd9169817549xec&amp;gcd=13l3l3l3l1l1&amp;dma=0&amp;tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948813~115480710&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Ftrade.avalonbroker.com%2Fpt%2Flogin%3Fredirect_url%3Dtraderoom%252F&amp;frm=0&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=1729915696.1759101578&amp;uaa=&amp;uab=&amp;uafvl=&amp;uamb=0&amp;uam=&amp;uap=&amp;uapv=&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script><script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/17486017768/?random=1759101581972&amp;cv=11&amp;fst=1759101581972&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45be59n2v9227755812z89169817549za200zb9169817549zd9169817549xec&amp;gcd=13l3l3l3l1l1&amp;dma=0&amp;tag_exp=101509157~103116026~103200004~103233427~104527906~104528501~104684208~104684211~104948813~115480710&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Ftrade.avalonbroker.com%2Fpt%2Flogin%3Fredirect_url%3Dtraderoom%252F&amp;frm=0&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=1729915696.1759101578&amp;uaa=&amp;uab=&amp;uafvl=&amp;uamb=0&amp;uam=&amp;uap=&amp;uapv=&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script><script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/16881802151/?random=1759101582415&amp;cv=11&amp;fst=1759101582415&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45be59n2v9208525891z89169817549za200zb9169817549zd9169817549xec&amp;gcd=13l3l3l3l1l1&amp;dma=0&amp;tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948813~115480709~115691065&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Ftrade.avalonbroker.com%2Fpt%2Flogin%3Fredirect_url%3Dtraderoom%252F&amp;frm=0&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=1729915696.1759101578&amp;uaa=&amp;uab=&amp;uafvl=&amp;uamb=0&amp;uam=&amp;uap=&amp;uapv=&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script><script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/17492984689/?random=1759101582778&amp;cv=11&amp;fst=1759101582778&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45be59n2v9229947533z89169817549za200zb9169817549zd9169817549xec&amp;gcd=13l3l3l3l1l1&amp;dma=0&amp;tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948813~115480710~115616986~115691063&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Ftrade.avalonbroker.com%2Fpt%2Flogin%3Fredirect_url%3Dtraderoom%252F&amp;frm=0&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=1729915696.1759101578&amp;uaa=&amp;uab=&amp;uafvl=&amp;uamb=0&amp;uam=&amp;uap=&amp;uapv=&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script><iframe height="0" width="0" style="display: none; visibility: hidden;"></iframe><script type="text/javascript" async="" src="https://googleads.g.doubleclick.net/pagead/viewthroughconversion/16805987856/?random=1759101584035&amp;cv=11&amp;fst=1759101584035&amp;bg=ffffff&amp;guid=ON&amp;async=1&amp;en=gtag.config&amp;gtm=45je59n2v9206501087z89169817549za200zb9169817549zd9169817549xec&amp;gcd=13l3l3l3l1l1&amp;dma=0&amp;tag_exp=101509157~103116026~103200004~103233427~104527906~104528500~104684208~104684211~104948813~115480710~115616985~115691065&amp;u_w=1536&amp;u_h=864&amp;url=https%3A%2F%2Ftrade.avalonbroker.com%2Fpt%2Flogin%3Fredirect_url%3Dtraderoom%252F&amp;frm=0&amp;hn=www.googleadservices.com&amp;npa=0&amp;pscdl=noapi&amp;auid=1729915696.1759101578&amp;uaa=&amp;uab=&amp;uafvl=&amp;uamb=0&amp;uam=&amp;uap=&amp;uapv=&amp;uaw=0&amp;data=event%3Dgtag.config&amp;rfmt=3&amp;fmt=4"></script></body></html>

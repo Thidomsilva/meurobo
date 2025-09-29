@@ -7,6 +7,8 @@ import cors from 'cors';
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || 'https://meurobo-frontend.fly.dev';
 const LOCAL_FRONTEND = 'http://localhost:9002';
 import { iqOptionLogin, getIqOptionBalance, getIqOptionPairs } from './iqoption';
+import { avalonLogin, getAvalonBalance, getAvalonPairs } from './avalon';
+import { pocketOptionLogin } from './pocketoption';
 
 const app = express();
 // CORS deve ser o primeiro middleware
@@ -74,6 +76,29 @@ app.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+// Endpoint de login na Avalon Broker
+app.post('/login-avalon', async (req: Request, res: Response) => {
+  console.log('POST /login-avalon recebido:', req.body);
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
+    }
+    const result = await Promise.race([
+      avalonLogin(email, password),
+      new Promise<{ success: boolean; message: string }>((resolve) => setTimeout(() => resolve({ success: false, message: 'Tempo limite atingido ao tentar conectar com Avalon.' }), 90000))
+    ]);
+    return res.status(200).json({ 
+      success: result.success, 
+      message: result.message, 
+      sessionData: (result as any).sessionData 
+    });
+  } catch (err: any) {
+    console.error('Erro no /login-avalon:', err);
+    return res.status(200).json({ success: false, message: `Erro inesperado: ${err?.message || String(err)}` });
+  }
+});
+
 // Endpoint para buscar saldo após login
 app.post('/balance', async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -102,6 +127,59 @@ app.post('/pairs', async (req: Request, res: Response) => {
   const pairs = await getIqOptionPairs(login.page);
   await login.browser?.close();
   res.json({ success: true, pairs });
+});
+
+// Endpoint para buscar saldo na Avalon
+app.post('/balance-avalon', async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
+  }
+  const login = await avalonLogin(email, password);
+  if (!login.success || !login.page) {
+    return res.status(401).json({ success: false, message: login.message });
+  }
+  const balance = await getAvalonBalance(login.page);
+  await login.browser?.close();
+  res.json({ success: balance.success, balance: balance.balance, currency: balance.currency, message: balance.message });
+});
+
+// Endpoint para buscar pares na Avalon
+app.post('/pairs-avalon', async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
+  }
+  const login = await avalonLogin(email, password);
+  if (!login.success || !login.page) {
+    return res.status(401).json({ success: false, message: login.message });
+  }
+  const pairs = await getAvalonPairs(login.page);
+  await login.browser?.close();
+  res.json({ success: pairs.success, pairs: pairs.pairs, message: pairs.message });
+});
+
+// Endpoint de login na Pocket Option
+app.post('/login-pocketoption', async (req: Request, res: Response) => {
+  console.log('POST /login-pocketoption recebido:', req.body);
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios.' });
+    }
+    const result = await Promise.race([
+      pocketOptionLogin(email, password),
+      new Promise<{ success: boolean; message: string }>((resolve) => setTimeout(() => resolve({ success: false, message: 'Tempo limite atingido ao tentar conectar com Pocket Option.' }), 90000))
+    ]);
+    return res.status(200).json({ 
+      success: result.success, 
+      message: result.message, 
+      sessionData: (result as any).sessionData 
+    });
+  } catch (err: any) {
+    console.error('Erro no /login-pocketoption:', err);
+    return res.status(200).json({ success: false, message: `Erro inesperado: ${err?.message || String(err)}` });
+  }
 });
 
 app.listen(PORT, () => {
